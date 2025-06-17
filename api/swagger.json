@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Yoga Mobil API",
+    "version": "1.0.0",
+    "description": "Mobil uygulama için JWT tabanlı API dokümantasyonu"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/yoga/api/auth/login.php": {
+      "post": {
+        "summary": "Kullanıcı girişi (JWT üretir)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Giriş başarılı, token döner",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "token": "JWT-token-here",
+                  "user": {
+                    "id": 1,
+                    "name": "Çağdaş",
+                    "email": "cagdaskotan@outlook.com"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Giriş başarısız"
+          }
+        }
+      }
+    },
+
+    "/yoga/api/products/products.php": {
+      "get": {
+        "summary": "JWT ile tüm ürünleri getir",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Başarılı",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "title": "Yoga Mat",
+                    "price": "299",
+                    "image": "http://10.20.11.48/yoga/media/products/yogamat.jpg"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+
+    "/yoga/api/events/events.php": {
+      "get": {
+        "summary": "JWT ile tüm etkinlikleri getir",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Başarılı",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "title": "Yaza Merhaba Etkinliği",
+                    "start_date": "2025-06-10",
+                    "end_date": "2025-06-12",
+                    "slug": "yaza-merhaba-etkinligi"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          }
+        }
+      }
+    },
+    
+    "/yoga/api/events/details.php": {
+      "get": {
+        "summary": "Etkinlik detay içeriğini getir (JWT ile)",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "İçeriği alınacak etkinliğin ID'si"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "İçerik başarıyla getirildi",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "article": "<p>Yaza Merhaba etkinliğimize hoş geldiniz...</p>"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz ID"
+          },
+          "401": {
+            "description": "Yetkisiz erişim"
+          },
+          "404": {
+            "description": "İçerik bulunamadı"
+          }
+        }
+      }
+    }
+
+  }
+}

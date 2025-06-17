@@ -1,0 +1,18 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^iletisim/?$ contact.php [L]
+RewriteRule ^uzmanlik-egitimleri/([^/]+)/?$ educations.php?slug=$1 [L]
+RewriteRule ^uzmanlik-egitimleri/?$ educations.php [L]
+RewriteRule ^etkinlikler/?$ events.php [L]
+RewriteRule ^etkinlik/([^/]+)/?$ events-details.php?slug=$1 [L]
+RewriteRule ^studyo-dersleri/([^/]+)/?$ lessons.php?slug=$1 [L]
+RewriteRule ^studyo-dersleri/?$ lessons.php [L]
+RewriteRule ^urunler/?$ products.php [L]
+RewriteRule ^urun/([^/]+)/?$ products-details.php?slug=$1 [L]
+RewriteRule ^hakkimizda/?$ aboutus.php [L]
+RewriteRule ^anasayfa/?$ index.php [L]
+RewriteRule ^kvkk/?$ kvkk.php [L]
+RewriteRule ^kullanim-kosullari/?$ terms.php [L]
+RewriteRule ^gizlilik-politikasi/?$ privacy.php [L]
